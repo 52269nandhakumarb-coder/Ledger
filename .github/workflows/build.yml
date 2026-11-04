@@ -6,7 +6,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip -q *.zip
-      - run: sed -i 's/sent to|payment of/sent|transferred|payment of/' Ledger/app/src/main/java/com/example/ledger/Store.kt
+      - name: Apply updated files
+        run: |
+          D=Ledger/app/src/main/java/com/example/ledger
+          for n in Store MainActivity; do
+            f=$(ls "$n"*.kt 2>/dev/null | sort -V | tail -1 || true)
+            if [ -n "$f" ]; then cp "$f" "$D/$n.kt"; fi
+          done
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
