@@ -6,6 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip -q *.zip
+      - run: sed -i 's/sent to|payment of/sent|transferred|payment of/' Ledger/app/src/main/java/com/example/ledger/Store.kt
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
