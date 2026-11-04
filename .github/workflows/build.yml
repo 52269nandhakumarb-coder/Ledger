@@ -5,9 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q *.zip
-      - name: Apply updated files
+      - name: Unpack project
+        run: unzip -q Ledger-v2.zip
+      - name: Apply icon and updated files
         run: |
+          for z in overlay*.zip; do
+            if [ -f "$z" ]; then unzip -qo "$z" -d Ledger; fi
+          done
           D=Ledger/app/src/main/java/com/example/ledger
           for n in Store MainActivity; do
             f=$(ls "$n"*.kt 2>/dev/null | sort -V | tail -1 || true)
